@@ -67,6 +67,16 @@ class Database():
         pass
 
 
+    def delete_user_by_id(self,id):
+        try:
+            if self.get_user_by_id(id):
+                self.cur.execute('''DELETE FROM users WHERE id = {}'''.format(id))
+                self.con.commit()
+        except:
+            return False
+
+
+
     def db_close(self):
         self.cur.close()
         self.con.close()
