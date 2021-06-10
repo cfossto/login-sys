@@ -1,9 +1,10 @@
 from flask import Flask,jsonify,request,session, redirect
 from werkzeug.utils import redirect
+from flask_cors import CORS
 from backend.db_connect import Database
 
 app = Flask(__name__)
-
+CORS(app)
 
 '''
 Login route
