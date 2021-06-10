@@ -1,4 +1,4 @@
-from flask import Flask,jsonify,request,session, redirect
+from flask import Flask,jsonify,request,session, redirect, Response,url_for
 from werkzeug.utils import redirect
 from flask_cors import CORS
 from backend.db_connect import Database
@@ -22,8 +22,7 @@ def login_user():
         print("Failed as expected")
 
     db.db_close()
-    return "Login"
-
+    return "Ok"
     
 
 
@@ -48,7 +47,7 @@ def get_user(id):
 
 # Create new user
 @app.route("/create_user",methods=["POST"])
-def index():
+def create_user():
     name = request.args.get("name")
     password = request.args.get("password")
     email = request.args.get("email")
@@ -80,7 +79,7 @@ def change_password():
     id = request.args.get("id")
     old_password = request.args.get("old-password")
     new_password = request.args.get("password")
-    
+
     if db.check_password(id,old_password):
         db.update_password(new_password)
         db.close()

@@ -87,7 +87,10 @@ class Database():
     def check_password(self,id,old_password):
         existing_password = self.cur.execute('''SELECT password FROM users WHERE id = {}'''.format(id))
         self.con.commit()
-        if old_password == existing_password:
+        password_from_db = ""
+        for password in existing_password:
+            password_from_db = password[0]
+        if old_password == password_from_db:
             return True
         else:
             return False
@@ -119,3 +122,6 @@ class Database():
     def db_close(self):
         self.cur.close()
         self.con.close()
+
+
+# print(Database().check_password(5,"hello"))
