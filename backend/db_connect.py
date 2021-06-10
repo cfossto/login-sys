@@ -5,6 +5,7 @@ import time
 
 class Database():
 
+
     db_path = "nordaxon_db.db"
 
     def __init__(self):
@@ -12,7 +13,31 @@ class Database():
         self.cur = self.con.cursor()
 
 
+    # Login section
+
+    def user_login(self,email,password):
+        try:
+            if self.get_email(email) == True:
+                user_credentials = self.cur.execute('''SELECT * FROM users WHERE email = "{}"'''.format(email))
+                self.con.commit()
+
+                for user in user_credentials:
+                    if user[3] == password:
+                        print("Password is correct")
+                        return True
+                    else:
+                        print("Something is very wrong")
+                        return False
+                self.db_close()
+        except:
+            print("Nope")
+            return False
+
+
+    # User-section
+
     def get_allusers(self):
+        ''' Only for testing purposes..'''
         try:
             user_list = []
             users = self.cur.execute('''SELECT * FROM users''')
@@ -80,3 +105,8 @@ class Database():
     def db_close(self):
         self.cur.close()
         self.con.close()
+
+
+
+
+Database().user_login("dfs","asdf")

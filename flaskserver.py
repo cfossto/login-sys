@@ -1,8 +1,29 @@
-from flask import Flask,jsonify,request
+from flask import Flask,jsonify,request,session, redirect
+from werkzeug.utils import redirect
 from backend.db_connect import Database
 
 app = Flask(__name__)
 
+
+
+
+'''
+Login route
+'''
+
+@app.route("/login",methods=["POST"])
+def login_user():
+
+    password = request.args.get("password")
+    email = request.args.get("email")
+    db = Database()
+    if db.user_login(email,password) == True:
+        print("All the way")
+    else:
+        print("Failed as expected")
+    return "Ok"
+
+    
 
 
 
@@ -24,8 +45,11 @@ def get_user(id):
     return jsonify(user)
 
 
-@app.route("/create_user/<string:name>+<string:password>+<string:email>",methods=["POST"])
-def index(name,password,email):
+@app.route("/create_user",methods=["POST"])
+def index():
+    name = request.args.get("name")
+    password = request.args.get("password")
+    email = request.args.get("email")
     db = Database()
     db.new_account(name,password,email)
     db.db_close()
