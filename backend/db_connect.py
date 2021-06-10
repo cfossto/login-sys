@@ -12,35 +12,35 @@ class Database():
         self.con = sqlite3.connect(self.db_path)
         self.cur = self.con.cursor()
 
-
     # Login section
 
     def user_login(self,email,password):
-        try:
-            if self.get_email(email):
-                user_credentials = self.cur.execute('''SELECT * FROM users WHERE email = "{}"'''.format(email))
-                self.con.commit()
-                print(user_credentials)
-                self.db_close()
-                #for user in user_credentials:
-                #    if user[3] == password:
-                #        print("Password is correct")
-                #        #self.update_login_info(user[0])
-                #        return True
-                    #else:
-                    #    print("Something is very wrong")
-                    #    return False
-            return True
-        except:
-            print("Nope")
-            return False
+        if self.get_email(email):
+            user_credentials = self.cur.execute('''SELECT id, password FROM users WHERE email ="{}"'''.format(email))
+            for user in user_credentials:
+                print(user)
+                id = user[0]
+                compare_password = user[1]
 
-        self.db_close()
+                if compare_password == password:
+                    return True
+
+
+            return True
+        
+
+
+    def password_validation(self,id, password):
+        check_password = self.cur.execute('''SELECT password FROM users WHERE id = {}'''.format(id))
+        if password == check_password:
+            return True
+        else:
+            return False
 
 
     # User-section
 
-    def get_allusers(self):
+    def get_all_users(self):
         ''' Only for testing purposes..'''
         try:
             user_list = []
@@ -70,7 +70,6 @@ class Database():
         try:
             self.cur.execute('''SELECT * FROM users WHERE email = "{}"'''.format(email))
             self.cur.fetchall()
-            self.db_close()
             print("Found email")
             return True
         except:
