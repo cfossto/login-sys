@@ -17,11 +17,11 @@ def login_user():
     password = request.args.get("password")
     email = request.args.get("email")
     db = Database()
-    if db.user_login(email,password) == True:
+    if db.user_login(email,password):
         print("All the way")
     else:
         print("Failed as expected")
-    return "Ok"
+    return "Login"
 
     
 
@@ -67,7 +67,7 @@ def update_user_info():
 
 @app.route("/password/change",methods=["POST"])
 def change_password():
-    
+
     db = Database()
 
     id = request.args.get("id")

@@ -17,21 +17,25 @@ class Database():
 
     def user_login(self,email,password):
         try:
-            if self.get_email(email) == True:
+            if self.get_email(email):
                 user_credentials = self.cur.execute('''SELECT * FROM users WHERE email = "{}"'''.format(email))
                 self.con.commit()
-
-                for user in user_credentials:
-                    if user[3] == password:
-                        print("Password is correct")
-                        return True
-                    else:
-                        print("Something is very wrong")
-                        return False
+                print(user_credentials)
                 self.db_close()
+                #for user in user_credentials:
+                #    if user[3] == password:
+                #        print("Password is correct")
+                #        #self.update_login_info(user[0])
+                #        return True
+                    #else:
+                    #    print("Something is very wrong")
+                    #    return False
+            return True
         except:
             print("Nope")
             return False
+
+        self.db_close()
 
 
     # User-section
@@ -67,8 +71,10 @@ class Database():
             self.cur.execute('''SELECT * FROM users WHERE email = "{}"'''.format(email))
             self.cur.fetchall()
             self.db_close()
+            print("Found email")
             return True
         except:
+            print("Didn't find email")
             return False
 
     
@@ -125,7 +131,17 @@ class Database():
             return False
 
 
+    def update_login_info(self,id):
+        login_amount = self.cur.execute('''SELECT login_am FROM users''')
+        now = datetime.datetime.now()
+        self.cur.execute('''UPDATE users SET last_login = "{}", login_am = {}'''.format(now, login_amount+1))
+        self.con.commit()
+        self.db_close()
 
     def db_close(self):
         self.cur.close()
         self.con.close()
+
+
+
+Database().get_email("adfa")

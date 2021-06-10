@@ -1,5 +1,6 @@
 import datetime
 import time
+from backend.db_connect import Database
 
 class Passwords:
 
@@ -13,8 +14,3 @@ class Passwords:
 
 
 
-class Users:
-
-    def login_time(self):
-        now = datetime.datetime.now()
-        return now
