@@ -1,4 +1,4 @@
-# nordaxon-app
+# nordax-app
 
 ## Project setup
 ```
