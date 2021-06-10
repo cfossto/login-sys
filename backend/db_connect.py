@@ -43,6 +43,7 @@ class Database():
             users = self.cur.execute('''SELECT * FROM users''')
             for user in users:
                 user_list.append(user)
+            self.db_close()
             return user_list
         except:
             return False
@@ -53,9 +54,11 @@ class Database():
            self.cur.execute('''SELECT * FROM users WHERE id = {}'''.format(int(id)))
            user = self.cur.fetchall()
            print(user[0])
+           self.db_close()
            return user[0]
         except:
             print("Can't find user")
+            self.db_close()
             return False
             
 
@@ -63,6 +66,7 @@ class Database():
         try:
             self.cur.execute('''SELECT * FROM users WHERE email = "{}"'''.format(email))
             self.cur.fetchall()
+            self.db_close()
             return True
         except:
             return False
@@ -78,18 +82,37 @@ class Database():
                 VALUES("{}","{}","{}","{}","{}",{})'''.format(name,email,password,now,last_logged_in,int(times_logged_in)))
             self.con.commit()
             print("yes")
+            self.db_close()
             return True
             
         except:
             print("no")
+            self.db_close()
             return False
 
     
     def update_user_info(self,id,name,email):
-        pass
+        
+        self.cur.execute('''UPDATE users SET name="{}",email="{}" WHERE id = {}'''.format(name,email,id))
+        self.con.commit()
+        print("Changed some stuff")
+        self.db_close()
+        return True
+
+
+    def check_password(self,id,old_password):
+        existing_password = self.cur.execute('''SELECT password FROM users WHERE id = {}'''.format(id))
+        self.con.commit()
+        if old_password == existing_password:
+            return True
+        else:
+            return False
 
     def update_password(self,id,new_password):
-        pass
+        self.cur.execute('''UPDATE users SET password="{}" WHERE id = {}'''.format(id,new_password))
+        self.con.commit()
+        self.db_close()
+        return True
 
 
     def delete_user_by_id(self,id):
@@ -97,6 +120,7 @@ class Database():
             if self.get_user_by_id(id):
                 self.cur.execute('''DELETE FROM users WHERE id = {}'''.format(id))
                 self.con.commit()
+                self.db_close()
         except:
             return False
 
@@ -105,8 +129,3 @@ class Database():
     def db_close(self):
         self.cur.close()
         self.con.close()
-
-
-
-
-Database().user_login("dfs","asdf")

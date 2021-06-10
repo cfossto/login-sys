@@ -41,7 +41,6 @@ Specific use case: /user/<int:id> followed by method (affects that specific user
 def get_user(id):
     db = Database()
     user = db.get_user_by_id(id)
-    db.db_close()
     return jsonify(user)
 
 
@@ -52,23 +51,46 @@ def index():
     email = request.args.get("email")
     db = Database()
     db.new_account(name,password,email)
-    db.db_close()
     return "Created"
 
 
 @app.route("/user",methods=["PUT"])
-def update_user():
-    return "Hello"
-
+def update_user_info():
     
+    id = request.args.get("id")
+    name = request.args.get("name")
+    email = request.args.get("email")
+
+    db = Database()
+    db.update_user_info(id,name,email)
+    return "Ok"
+
+@app.route("/password/change",methods=["POST"])
+def change_password():
+    
+    db = Database()
+
+    id = request.args.get("id")
+    old_password = request.args.get("old-password")
+    new_password = request.args.get("password")
+    
+    if db.check_password(id,old_password):
+        db.update_password(new_password)
+        return "Ok"
+    else:
+        print("Wrong password")
+        return "No"
+
 
 @app.route("/user/<int:id>",methods=["DELETE"])
 def delete_user(id):
     db = Database()
     db.delete_user_by_id(id)
-    db.db_close()
     return "Deleted user"
     
+
+
+# Log routes
 
 
 

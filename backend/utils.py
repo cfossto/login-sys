@@ -1,7 +1,5 @@
-
-
-from flask.globals import request
-
+import datetime
+import time
 
 class Passwords:
 
@@ -12,3 +10,11 @@ class Passwords:
     def validate_email(self,email):
         # regexp for validation
         pass
+
+
+
+class Users:
+
+    def login_time(self):
+        now = datetime.datetime.now()
+        return now
