@@ -5,8 +5,6 @@ from backend.db_connect import Database
 app = Flask(__name__)
 
 
-
-
 '''
 Login route
 '''
