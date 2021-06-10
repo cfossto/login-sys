@@ -5,36 +5,28 @@ import time
 
 class Database():
 
-
-    db_path = "nordaxon_db.db"
-
     def __init__(self):
-        self.con = sqlite3.connect(self.db_path)
+        self.con = sqlite3.connect("nordaxon_db.db")
         self.cur = self.con.cursor()
 
     # Login section
 
     def user_login(self,email,password):
-        if self.get_email(email):
-            user_credentials = self.cur.execute('''SELECT id, password FROM users WHERE email ="{}"'''.format(email))
-            for user in user_credentials:
-                print(user)
-                id = user[0]
-                compare_password = user[1]
+        try:
+            if self.get_email(email):
+                user_credentials = self.cur.execute('''SELECT id, password FROM users WHERE email ="{}"'''.format(email))
+                for user in user_credentials:
+                    print(user)
+                    id = user[0]
+                    compare_password = user[1]
 
-                if compare_password == password:
-                    return True
+                    if compare_password == password:
+                        return True
+                    
+                    self.update_login_info(id)
 
-
-            return True
-        
-
-
-    def password_validation(self,id, password):
-        check_password = self.cur.execute('''SELECT password FROM users WHERE id = {}'''.format(id))
-        if password == check_password:
-            return True
-        else:
+                return True
+        except:
             return False
 
 
@@ -131,9 +123,15 @@ class Database():
 
 
     def update_login_info(self,id):
-        login_amount = self.cur.execute('''SELECT login_am FROM users''')
-        now = datetime.datetime.now()
-        self.cur.execute('''UPDATE users SET last_login = "{}", login_am = {}'''.format(now, login_amount+1))
+        self.id = id
+        login_amount = self.cur.execute('''SELECT login_amt FROM users WHERE id = {}'''.format(self.id))
+        self.con.commit()
+        new_login_amount = 0
+        for amt in login_amount:
+            new_login_amount = amt[0]
+            now = datetime.datetime.now()
+            self.cur.execute('''UPDATE users SET last_login = "{}",login_amt = {} WHERE id = {}'''.format(now,new_login_amount+1, self.id))
+            break
         self.con.commit()
         self.db_close()
 
@@ -143,4 +141,4 @@ class Database():
 
 
 
-Database().get_email("adfa")
+Database().update_login_info(5)
