@@ -18,11 +18,10 @@ Login route
 
 @app.route("/login",methods=["POST"])
 def login_user():
-
     password = request.args.get("password")
     email = request.args.get("email")
     db = Database()
-    if db.user_login(email,password):
+    if db.user_login_check(email,password):
         print("All the way")
         return "", 200
     else:
@@ -84,15 +83,9 @@ def change_password():
     id = request.args.get("id")
     old_password = request.args.get("old-password")
     new_password = request.args.get("password")
-
-    if db.check_password(id,old_password):
-        db.update_password(new_password)
-        db.close()
-        return "Ok"
-    else:
-        print("Wrong password")
-        db.db_close()
-        return "No"
+    db.update_password(id,new_password)
+    db.db_close()
+    return "Password changed"
 
 
 # Delete user by id

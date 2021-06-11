@@ -2,7 +2,7 @@ from cryptography.fernet import Fernet
 
 
 # Fernet for obfuscation
-def encrypt_user_details(username,name):
+def encrypt_user_details(username=None,name=None):
     encoded_username = username.encode()
     encoded_name = name.encode()
 
@@ -17,6 +17,14 @@ def encrypt_user_details(username,name):
     encrypted_username = f.encrypt(encoded_username)
     encrypted_name = f.encrypt(encoded_name)
     return encrypted_username, encrypted_name
+
+
+def encrypt_mail(username):
+    encoded_mail = username.encode()
+    print(encoded_mail)
+    f = Fernet(b'aIuJ5qLfakZc-2YXDCr4MVVOBrLMebGKqKFU94R_bAQ=')
+    encrypted_mail = f.encrypt(encoded_mail)
+    return encrypted_mail
 
 
 def decrypt_user_details(encrypted_username=None,encrypted_name=None):

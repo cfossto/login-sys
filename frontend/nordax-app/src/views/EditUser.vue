@@ -14,11 +14,6 @@
           <input @click="changeUsername" type="button" value="Change name" class="btn">
       </form>
       
-      <h3 @click="changeFullName">Change Full Name</h3>
-      <form>
-          <input type="text" name="Change full name" id="change-full-name" placeholder="Change your full name"><br/>
-          <input @click="changeFullName" type="button" value="Change name" class="btn">
-      </form>
 
       <div>
           <h3>Remove account?</h3>
@@ -35,8 +30,8 @@ export default {
 
     data(){
         return{
-            oldPassword: "",
-            newPassword: "",
+            oldPassword: this.oldPassword,
+            newPassword: this.newPassword,
             removePass: "",
             changePass: false,
             Username: false,
@@ -50,7 +45,7 @@ export default {
         },
         
         updatePassword(){
-            fetch(`http://localhost:3000/password/change?id=6&old-password=${this.oldPassword}&password=${this.newPassword}`,
+            fetch(`http://localhost:3000/password/change?id=18&old-password=${this.oldPassword}&password=${this.newPassword}`,
             {method:"POST"})
             window.location.href="/"
         },
@@ -62,7 +57,7 @@ export default {
         },
         removeAccount(){
             if (this.removePass == "password"){
-                fetch(`http://localhost:3000//user/9`,{method:"DELETE"})
+                fetch(`http://localhost:3000//user/18`,{method:"DELETE"})
             }
             window.location.href="/"
         }
