@@ -14,9 +14,13 @@
 export default {
     name: "Landingpage",
 
-    data(){ return {
-
-    }},
+    data(){
+        return{
+            name: this.name,
+            password: this.password,
+            email: this.email
+        }
+    },
 
     methods: {
         onClick(){ 

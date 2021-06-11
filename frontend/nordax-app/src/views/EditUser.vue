@@ -5,7 +5,7 @@
       <form>
         <input v-model="oldPassword" type="password" name="Change password" id="change_password" placeholder="Old Password"><br/>
         <input v-model="newPassword" type="password" name="New password" id="new-password" placeholder="New Password"><br/>
-        <input @click="updatePassword" type="button" value="Update Password" class="btn">
+        <input @click.prevent="updatePassword" type="button" value="Update Password" class="btn">
       </form>
       
       <h3 @click="changeUsername">Change username</h3>
@@ -47,7 +47,7 @@ export default {
         updatePassword(){
             fetch(`http://localhost:3000/password/change?id=18&old-password=${this.oldPassword}&password=${this.newPassword}`,
             {method:"POST"})
-            window.location.href="/"
+            window.location.href="/inside"
         },
         changeUsername(){
             this.Username = !this.Username;

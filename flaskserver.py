@@ -21,12 +21,7 @@ def login_user():
     password = request.args.get("password")
     email = request.args.get("email")
     db = Database()
-    if db.user_login_check(email,password):
-        print("All the way")
-        return "", 200
-    else:
-        print("Failed as expected")
-        return "", 404
+
     
 
 
@@ -56,9 +51,12 @@ def create_user():
     password = request.args.get("password")
     email = request.args.get("email")
     db = Database()
-    db.new_account(name,password,email)
-    db.db_close()
-    return "Created"
+    try:
+        db.new_account(name,password,email)
+        db.db_close()
+        return "Created"
+    except:
+        return "No"
 
 
 # Update user info

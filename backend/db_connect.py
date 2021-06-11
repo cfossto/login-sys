@@ -3,8 +3,8 @@ import datetime
 import time
 from werkzeug.security import safe_str_cmp
 from passlib.hash import pbkdf2_sha256
-from security import encrypt_user_details, decrypt_user_details, encrypt_mail
-
+from cryptography.fernet import Fernet
+from security import encrypt_mail, decrypt_mail
 
 
 class Database():
@@ -16,29 +16,21 @@ class Database():
     # Login section
 
     def user_login_check(self,email,password):
-        if self.get_email(email):
-            id = 0
-            user_credentials = self.cur.execute('''SELECT id, password FROM users WHERE email = "{}"'''.format(email))
-            for user in user_credentials:
-                id = user[0]
-                exchange_password = user[1]
-                #if safe_str_cmp(password, exchange_password):
-                if pbkdf2_sha256.verify(password,exchange_password):
-                    print("password checked")
-                    self.update_login_info(id)
-                    return True
-        return True
+        try:
+            e_email = encrypt_mail(email)
+            result = self.cur.execute('''SELECT * FROM users''')
+            user = []
+            for users in result:
+                user.append(users)
+            id = user[0][0]
+            db_password = user[0][3]
+            print(db_password)
+            print(password)
+            if not pbkdf2_sha256.verify(password,):
+                print("yep")
+        except:
+            print("cannot find user")
 
-
-    def user_details(self, email):
-        encoded_mail = encrypt_mail(email)
-        encrypted_mail = 
-        user_credentials = self.cur.execute('''SELECT id, password FROM users WHERE email = "{}"'''.format(encrypted_mail))
-        user_details = []
-        for user in user_credentials:
-            print(user)
-        print(user_details)
-        return user_details
 
 
     # User-section
@@ -68,13 +60,16 @@ class Database():
             
 
     def get_email(self,email):
-        encrypted_email = encrypt_mail(email)
-        print()
-        self.cur.execute('''SELECT * FROM users WHERE email = "{}"'''.format(encrypted_email))
-        self.cur.fetchall()
-        print("Found email")
-        return True
-
+        try:
+            encrypted_email = encrypt_mail(email)
+            print(encrypted_email)
+            self.cur.execute('''SELECT * FROM users WHERE email = "{}"'''.format(encrypted_email))
+            self.cur.fetchall()
+            print("Found email")
+            return True
+        except:
+            print("Get email is down")
+            return False 
     
     def new_account(self,email,password, name):
 
@@ -135,5 +130,4 @@ class Database():
         self.con.close()
 
 
-#Database().update_password(17,"test")
-Database().user_details("test3")
+Database().user_login_check("test","test")

@@ -19,12 +19,20 @@ def encrypt_user_details(username=None,name=None):
     return encrypted_username, encrypted_name
 
 
-def encrypt_mail(username):
-    encoded_mail = username.encode()
-    print(encoded_mail)
+def encrypt_mail(email):
+    
     f = Fernet(b'aIuJ5qLfakZc-2YXDCr4MVVOBrLMebGKqKFU94R_bAQ=')
+    encoded_mail = email.encode()
+    print(encoded_mail)
     encrypted_mail = f.encrypt(encoded_mail)
+    print(encrypted_mail)
     return encrypted_mail
+
+
+def decrypt_mail(encrypted_mail):
+        f = Fernet(b'aIuJ5qLfakZc-2YXDCr4MVVOBrLMebGKqKFU94R_bAQ=')
+        decrypted = f.decrypt(encrypt_mail)
+        print(decrypted)
 
 
 def decrypt_user_details(encrypted_username=None,encrypted_name=None):
