@@ -5,9 +5,11 @@
           <input v-model="password" type="password" id="password" placeholder="Password">
           <input type="button" @click.prevent="sendUser" placeholder="Login" value="Login" id="sendButton">
       </form>
-
+  </div>
+  <div class="createAccount">
       <p>Need an account?</p>
-      <p class="register-btn"><router-link to="/new_user">Click here</router-link></p>
+      <br/>
+      <p class="register-btn"><router-link to="/new_user"> Click here</router-link></p>
   </div>
 </template>
 
@@ -32,9 +34,10 @@ export default {
 </script>
 
 <style scoped>
-.landing { display: flex; justify-content: center; margin-top: 15%; }
-
+.landing, .createAccount { display: flex; justify-content: center;  margin-top: 15%; }
+.createAccount { display: flex; justify-content: center; ; }
 input { height: 45px; width: 150px; border-radius: 1px; margin-top:40px; margin-bottom: 40px; display:flex; justify-content: center; }
 #sendButton { color:whitesmoke; border-style: groove; height: 60px; background-color: rgb(120, 172, 96);}
+
 
 </style>

@@ -2,28 +2,28 @@
   <div class="edit">
       <h1>Edit User</h1><br/>
       <h3 @click="showChangePass" >Change Password</h3>
-      <form v-if="changePass">
-        <input v-model="oldPassword" type="password" name="Change password" id="change_password" placeholder="Old Password">
-        <input v-model="newPassword" type="password" name="New password" id="new-password" placeholder="New Password">
-        <input @click="updatePassword" type="button" value="Update Password">
+      <form>
+        <input v-model="oldPassword" type="password" name="Change password" id="change_password" placeholder="Old Password"><br/>
+        <input v-model="newPassword" type="password" name="New password" id="new-password" placeholder="New Password"><br/>
+        <input @click="updatePassword" type="button" value="Update Password" class="btn">
       </form>
       
       <h3 @click="changeUsername">Change username</h3>
-      <form v-if="Username">
-          <input type="text" name="Change user name" id="change-username">
-          <input @click="changeUsername" type="button" value="Change name">
+      <form>
+          <input type="text" name="Change user name" id="change-username" placeholder="Add new username" ><br/>
+          <input @click="changeUsername" type="button" value="Change name" class="btn">
       </form>
       
       <h3 @click="changeFullName">Change Full Name</h3>
-      <form v-if="Name">
-          <input type="text" name="Change full name" id="change-full-name">
+      <form>
+          <input type="text" name="Change full name" id="change-full-name" placeholder="Change your full name"><br/>
+          <input @click="changeFullName" type="button" value="Change name" class="btn">
       </form>
 
       <div>
           <h3>Remove account?</h3>
-          <input v-model="removePass" type="text" name="rm-account" id="rm-account" placeholder="password">
-          <p></p>
-          <input @click="removeAccount" type="button" value="Remove">
+          <input v-model="removePass" type="password" name="rm-account" id="rm-account" placeholder="Provide Password"><br>
+          <input @click="removeAccount" type="button" value="Remove" class="btn">
       </div>
 
   </div>
@@ -71,6 +71,9 @@ export default {
 </script>
 
 <style scoped>
-.edit { display: flex; flex-direction: column; justify-content:center;  align-items: center; }
-h3 { cursor:pointer; }
+.edit { display: flex; flex-direction: column; justify-content:center;  align-items: center; 
+        background-color: whitesmoke; opacity: 95%; margin: 5%; width: 300px; padding: 8%;}
+h3 { cursor:pointer; margin-top: 13%; }
+input { margin-bottom: 1%; display: flex; justify-content: center; align-items: center;}
+.btn { display: flex; justify-content: center; align-items: center; }
 </style>

@@ -1,11 +1,12 @@
 from flask import Flask, jsonify, request, redirect, Response,url_for
-# import JWT
+from flask_jwt import JWT, jwt_required
 from werkzeug.utils import redirect
 from flask_cors import CORS
 from backend.db_connect import Database
 
 app = Flask(__name__)
 CORS(app)
+app.config['SECRET_KEY'] = "veryverySecret1"
 
 '''
 Login route
