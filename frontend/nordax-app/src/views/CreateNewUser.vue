@@ -26,6 +26,8 @@ export default {
         sendUser(){
             fetch(`http://localhost:3000/create_user?email=${this.email}&password=${this.password}&name=${this.name}`,{
                 method: "POST"})
+
+                window.location.href="/"
         }
     },
 

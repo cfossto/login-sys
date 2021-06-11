@@ -5,7 +5,9 @@
           <input v-model="password" type="password" id="password" placeholder="Password">
           <input type="button" @click.prevent="sendUser" placeholder="Login" value="Login" id="sendButton">
       </form>
-      <h3 v-if="success"></h3>
+
+      <p>Need an account?</p>
+      <p class="register-btn"><router-link to="/new_user">Click here</router-link></p>
   </div>
 </template>
 
@@ -18,9 +20,11 @@ export default {
     }},
 
     methods: {
-        sendUser(){
-            fetch(`http://localhost:3000/login?email=${this.email}&password=${this.password}`,{
+        async sendUser(){
+            await fetch(`http://localhost:3000/login?email=${this.email}&password=${this.password}`,{
                 method: "POST"})
+
+                .then(res => { if (res.status==200){ window.location.href="/inside" }})
         }
     }
 

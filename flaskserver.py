@@ -1,4 +1,5 @@
-from flask import Flask,jsonify,request,session, redirect, Response,url_for
+from flask import Flask, jsonify, request, redirect, Response,url_for
+# import JWT
 from werkzeug.utils import redirect
 from flask_cors import CORS
 from backend.db_connect import Database
@@ -18,11 +19,10 @@ def login_user():
     db = Database()
     if db.user_login(email,password):
         print("All the way")
+        return "", 200
     else:
         print("Failed as expected")
-
-    db.db_close()
-    return "Ok"
+        return "", 404
     
 
 
@@ -95,7 +95,6 @@ def change_password():
 def delete_user(id):
     db = Database()
     db.delete_user_by_id(id)
-    db.close()
     return "Deleted user"
     
 
