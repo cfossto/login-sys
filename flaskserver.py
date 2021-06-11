@@ -21,6 +21,22 @@ def login_user():
     password = request.args.get("password")
     email = request.args.get("email")
     db = Database()
+    user = db.get_user(email)
+    id = user[0][0]
+    name = user[0][1]
+    username = user[0][2]
+
+    user_creds = []
+    user_creds.append(id)
+    user_creds.append(name)
+    user_creds.append(username) 
+
+    if db.user_login_check(email,password):
+        return jsonify(user_creds), 200
+    else:
+        return "Not logged in",404
+
+
 
     
 

@@ -16,9 +16,6 @@ export default {
 
     data(){
         return{
-            name: this.name,
-            password: this.password,
-            email: this.email
         }
     },
 
@@ -43,6 +40,6 @@ export default {
 </script>
 
 <style scoped>
-.newUserForm { display: flex; justify-content: center; margin-top: 15%; padding: 15%; width: 600px; background-color: whitesmoke; opacity: 95%;}
-input { margin-top:15% }
+.newUserForm { margin-top: 25%; padding: 15%; }
+input { margin: 5% }
 </style>

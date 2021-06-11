@@ -4,6 +4,7 @@ import time
 from werkzeug.security import safe_str_cmp
 from passlib.hash import pbkdf2_sha256
 from cryptography.fernet import Fernet
+from security import encrypt_mail, decrypt_mail
 
 
 class Database():
@@ -16,30 +17,22 @@ class Database():
 
     def user_login_check(self,email,password):
         try:
-            result = self.cur.execute('''SELECT * FROM clear_text_users WHERE email = "{}"'''.format(email))
-            user_credentials = []
-            for user in result:
-                user_credentials.append(user)
-            print(user_credentials)
-            db_password = user_credentials[0][3]
-            if password == db_password:
-                print("Success")
-                return True
+            e_email = encrypt_mail(email)
+            print(e_email)
+            print("this")
+            result = self.cur.execute('''SELECT * FROM users''')
+            user = []
+            for users in result:
+                user.append(users)
+            print(user)
+            for u in user:
+                if u == e_email:
+                    print("Found one")
+                else:
+                    print("No")
         except:
-            print("cant find user")
+            print("cannot find user")
 
-    
-    def get_user(self,email):
-        try:
-            result = self.cur.execute('''SELECT * FROM clear_text_users WHERE email = "{}"'''.format(email))
-            user_credentials = []
-            for user in result:
-                user_credentials.append(user)
-
-            return user_credentials
-        except:
-            return False
-            
 
 
     # User-section
@@ -50,6 +43,7 @@ class Database():
             user_list = []
             users = self.cur.execute('''SELECT * FROM users''')
             for user in users:
+                user_name = decrypt_user_details(encrypted_username=user)
                 user_list.append(user)
             return user_list
         except:
@@ -69,8 +63,9 @@ class Database():
 
     def get_email(self,email):
         try:
-        
-            self.cur.execute('''SELECT * FROM users WHERE email = "{}"'''.format(email))
+            encrypted_email = encrypt_mail(email)
+            print(encrypted_email)
+            self.cur.execute('''SELECT * FROM users WHERE email = "{}"'''.format(encrypted_email))
             self.cur.fetchall()
             print("Found email")
             return True
@@ -83,9 +78,11 @@ class Database():
         now = datetime.datetime.now()
         last_logged_in = now
         times_logged_in = 1
+        hashed_password = pbkdf2_sha256.hash(password)
+        encrypted_username, encrypted_name = encrypt_user_details(email,name)
         try:
-            self.cur.execute('''INSERT INTO clear_text_users (email,name,password,user_created,last_login,login_amt) \
-                VALUES("{}","{}","{}","{}","{}",{})'''.format(name,email,password,now,last_logged_in,int(times_logged_in)))
+            self.cur.execute('''INSERT INTO users (email,name,password,user_created,last_login,login_amt) \
+                VALUES("{}","{}","{}","{}","{}",{})'''.format(encrypted_name,encrypted_username,hashed_password,now,last_logged_in,int(times_logged_in)))
             self.con.commit()
             print("yes")
             return True
@@ -105,7 +102,9 @@ class Database():
 
 
     def update_password(self,id,changed_password):
-        self.cur.execute('''UPDATE users SET password="{}" WHERE id = {}'''.format(password,id))
+        new_password = pbkdf2_sha256.hash(changed_password)
+        print(new_password)
+        self.cur.execute('''UPDATE users SET password="{}" WHERE id = {}'''.format(new_password,id))
         self.con.commit()
         return True
 
@@ -133,4 +132,4 @@ class Database():
         self.con.close()
 
 
-Database().user_login_check("hejsan","test")
+Database().user_login_check("test3","test")

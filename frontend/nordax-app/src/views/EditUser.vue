@@ -8,13 +8,6 @@
         <input @click.prevent="updatePassword" type="button" value="Update Password" class="btn">
       </form>
       
-      <h3 @click="changeUsername">Change username</h3>
-      <form>
-          <input type="text" name="Change user name" id="change-username" placeholder="Add new username" ><br/>
-          <input @click="changeUsername" type="button" value="Change name" class="btn">
-      </form>
-      
-
       <div>
           <h3>Remove account?</h3>
           <input v-model="removePass" type="password" name="rm-account" id="rm-account" placeholder="Provide Password"><br>
@@ -49,12 +42,6 @@ export default {
             {method:"POST"})
             window.location.href="/inside"
         },
-        changeUsername(){
-            this.Username = !this.Username;
-        },
-        changeFullName(){
-            this.Name = !this.Name
-        },
         removeAccount(){
             if (this.removePass == "password"){
                 fetch(`http://localhost:3000//user/18`,{method:"DELETE"})
@@ -69,9 +56,6 @@ export default {
 </script>
 
 <style scoped>
-.edit { display: flex; flex-direction: column; justify-content:center;  align-items: center; 
-        background-color: whitesmoke; opacity: 95%; margin: 5%; width: 300px; padding: 8%;}
-h3 { cursor:pointer; margin-top: 13%; }
-input { margin-bottom: 1%; display: flex; justify-content: center; align-items: center;}
-.btn { display: flex; justify-content: center; align-items: center; }
+.edit { padding: 15%; margin-top: 10% }
+input { margin-bottom: 10%; }
 </style>

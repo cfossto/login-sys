@@ -36,8 +36,8 @@ export default {
 
 <style scoped>
 
-.mainMenu { height: 10%; background-color: whitesmoke; opacity: 97%; display: flex; align-items: center; justify-content: center;}
-li { list-style-type: none; }
-ul { display: inline-block; text-decoration: underline; color: seagreen; cursor: pointer; }
+.mainMenu { height: 10%; background-color: whitesmoke; opacity: 97%;margin-left: auto; margin-right: auto;}
+li { list-style-type: none; padding-right: 40%; padding-left: 40%; }
+ul { display: inline-block;  }
 
 </style>
