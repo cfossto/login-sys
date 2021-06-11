@@ -26,7 +26,7 @@ export default {
     },
     methods: {
         logout(){
-
+            this.logged_in = false
         }
     }
 

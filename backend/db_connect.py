@@ -1,6 +1,10 @@
 import sqlite3
 import datetime
 import time
+from werkzeug.security import safe_str_cmp
+from passlib.hash import pbkdf2_sha256
+from backend.security import encrypt_user_details, decrypt_user_details
+
 
 
 class Database():
@@ -18,7 +22,8 @@ class Database():
             for user in user_credentials:
                 id = user[0]
                 exchange_password = user[1]
-                if exchange_password == password:
+                #if safe_str_cmp(password, exchange_password):
+                if pbkdf2_sha256.verify(password,exchange_password):
                     print("password checked")
                     self.update_login_info(id)
                     return True
@@ -50,7 +55,8 @@ class Database():
 
     def get_email(self,email):
         try:
-            self.cur.execute('''SELECT * FROM users WHERE email = "{}"'''.format(email))
+            encrypt_email = decrypt_user_details(encrypted_username=email)
+            self.cur.execute('''SELECT * FROM users WHERE email = "{}"'''.format(encrypt_email))
             self.cur.fetchall()
             print("Found email")
             return True
@@ -64,9 +70,11 @@ class Database():
         now = datetime.datetime.now()
         last_logged_in = now
         times_logged_in = 1
+        hashed_password = pbkdf2_sha256.hash(password)
+        encrypted_username, encrypted_name = encrypt_user_details(email,name)
         try:
             self.cur.execute('''INSERT INTO users (email,name,password,user_created,last_login,login_amt) \
-                VALUES("{}","{}","{}","{}","{}",{})'''.format(name,email,password,now,last_logged_in,int(times_logged_in)))
+                VALUES("{}","{}","{}","{}","{}",{})'''.format(encrypted_name,encrypted_username,hashed_password,now,last_logged_in,int(times_logged_in)))
             self.con.commit()
             print("yes")
             return True
@@ -90,7 +98,7 @@ class Database():
         password_from_db = ""
         for password in existing_password:
             password_from_db = password[0]
-        if old_password == password_from_db:
+        if safe_str_cmp(password_from_db,old_password):
             return True
         else:
             return False

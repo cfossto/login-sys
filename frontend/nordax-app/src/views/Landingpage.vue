@@ -18,7 +18,10 @@ export default {
   name: 'Landingpage',
 
   data() { return {
-      success: false
+      success: false,
+      password: "",
+      email: ""
+
     }},
 
     methods: {

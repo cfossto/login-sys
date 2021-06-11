@@ -35,6 +35,9 @@ export default {
 
     data(){
         return{
+            oldPassword: "",
+            newPassword: "",
+            removePass: "",
             changePass: false,
             Username: false,
             Name: false
