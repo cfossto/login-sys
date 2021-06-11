@@ -20,12 +20,18 @@ export default {
   data() { return {
       success: false,
       password: "",
-      email: ""
+      email: "",
+      passwordFail: false
 
     }},
 
     methods: {
         async sendUser(){
+
+            // re = new RegExp("^(?=.*[0-9])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|\])")
+
+
+
             await fetch(`http://localhost:3000/login?email=${this.email}&password=${this.password}`,{
                 method: "POST"})
 
