@@ -1,7 +1,11 @@
 # Login app
 
 
-An example of a full stack login-app. Frontend in __Vue/Javascript__. Backend in __NodeJS__ and __Python/Flask__. Database is simple, but has custom encryption.
+An example of a full stack login-app.
+
+Frontend in __Vue/Javascript__.
+Backend in __NodeJS__ and __Python/Flask__.
+Database is simple, but has custom encryption.
 
 __Under development!__
 
