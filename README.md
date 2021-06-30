@@ -22,3 +22,4 @@ Future additions will be:
 * Postgres database
 * Encryption with bcrypt + salt
 * Session based authentication
+* Axios instead of Fetch
