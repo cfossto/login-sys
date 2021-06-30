@@ -10,7 +10,7 @@ from security import encrypt_mail, decrypt_mail
 class Database():
 
     def __init__(self):
-        self.con = sqlite3.connect("nordaxon_db.db")
+        self.con = sqlite3.connect("login-app.db")
         self.cur = self.con.cursor()
 
     # Login section
