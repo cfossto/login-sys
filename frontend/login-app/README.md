@@ -1,4 +1,4 @@
-# nordax-app
+# login-app
 
 ## Project setup
 ```
